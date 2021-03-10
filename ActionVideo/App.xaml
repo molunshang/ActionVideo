@@ -8,6 +8,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#000</Color>
+            <Style TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="#1b1b1b"/>
+            </Style>
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#ff9900"/>
             </Style>
@@ -30,6 +33,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,5 +1,7 @@
 ﻿using ActionVideo.Services;
+using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ActionVideo
@@ -13,6 +15,16 @@ namespace ActionVideo
 
             DependencyService.RegisterSingleton(CreateHttpClient());
             DependencyService.RegisterSingleton(new VideoApi());
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                Console.WriteLine(s);
+                Console.WriteLine(e.ExceptionObject);
+            };
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                Console.WriteLine(s);
+                Console.WriteLine(e.Exception);
+            };
             MainPage = new AppShell();
         }
 

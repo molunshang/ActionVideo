@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ActionVideo.Converts"
-             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:view="clr-namespace:ActionVideo.Views.Common" 
+             xmlns:control="clr-namespace:ActionVideo.Control"
              x:Class="ActionVideo.Views.HomePage">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:ImageSourceConverter x:Key="Pic"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <Shell.SearchHandler>
-        <SearchHandler Placeholder="请输入关键字"
+        <control:VideoSearchHandler Placeholder="请输入关键字"
                                       ShowsResults="true"
-                                      DisplayMemberName="Name" />
+                                      DisplayMemberName="Name" QueryConfirmed="VideoSearchHandler_QueryConfirmed" />
     </Shell.SearchHandler>
-    <CollectionView x:Name="Videos" ItemsLayout="VerticalGrid,2" BackgroundColor="{StaticResource Primary}" ItemSizingStrategy="MeasureAllItems" ItemsUpdatingScrollMode="KeepScrollOffset">
+    <view:VideoListView x:Name="Videos"/>
+    <!--<CollectionView x:Name="Videos" BackgroundColor="{StaticResource Primary}" ItemSizingStrategy="MeasureAllItems"
+                    ItemsUpdatingScrollMode="KeepScrollOffset">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="5" HorizontalItemSpacing="5"/>
+        </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout Padding="5">
@@ -24,5 +24,5 @@
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>
+    </CollectionView>-->
 </ContentPage>

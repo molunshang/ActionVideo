@@ -1,12 +1,8 @@
 ﻿using ActionVideo.Models;
 using ActionVideo.Services;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,10 +16,13 @@ namespace ActionVideo.Views
         public HomePage()
         {
             InitializeComponent();
+            Videos.ItemsSource = Items = new ObservableCollection<VideoItem>();
+            LoadHomeVideo();
+        }
 
-            Items = new ObservableCollection<VideoItem>();
-            Videos.ItemsSource = Items;
-            api.GetHomeVideos().ContinueWith(t =>
+        Task LoadHomeVideo()
+        {
+            return api.GetHomeVideos().ContinueWith(t =>
             {
                 if (t.IsFaulted)
                 {
@@ -39,7 +38,7 @@ namespace ActionVideo.Views
                         {
                             Shell.Current.FlyoutIsPresented = false;
                             var data = (Category)((MenuItem)sender).BindingContext;
-                            await Navigation.PushAsync(new VideosPage(data.TypeId, data.TypeName));
+                            await Navigation.PushAsync(new VideosPage(data.TypeId, data.TypeName, false));
                         };
                         Shell.Current.Items.Add(menuItem);
                     }
@@ -51,15 +50,10 @@ namespace ActionVideo.Views
             });
         }
 
-        private void SearchHandler_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void VideoSearchHandler_QueryConfirmed(SearchHandler sender, string key)
         {
-            var handler = sender as SearchHandler;
-            if (handler == null)
-            {
-                return;
-            }
-            
-            Console.WriteLine(handler.TextColor);
+            sender.ClearValue(SearchHandler.QueryProperty);
+            await Navigation.PushAsync(new VideosPage(-1, key, true));
         }
     }
 }

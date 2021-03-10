@@ -1,5 +1,7 @@
 ﻿using ActionVideo.Models;
 using ActionVideo.Services;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -14,47 +16,86 @@ namespace ActionVideo.Views
         private readonly int type;
         private int page = 1;
         private int total;
-        private Task loadingTask;
+        private bool loading = true;
+
+        private Func<Task<IList<VideoItem>>> loadFunc;
         public ObservableCollection<VideoItem> Items { get; set; }
 
-        public VideosPage(int type, string title)
+        public VideosPage(int type, string title, bool search)
         {
             InitializeComponent();
             this.type = type;
             Title = title;
             Videos.ItemsSource = Items = new ObservableCollection<VideoItem>();
-            loadingTask = LoadVideos();
+            Videos.Scrolled += Videos_Scrolled;
+            if (search)
+            {
+                loadFunc = SearchVideos;
+            }
+            else
+            {
+                loadFunc = LoadVideos;
+            }
+            loadFunc().ContinueWith(LoadComplete);
         }
 
-        Task LoadVideos()
+        Task<IList<VideoItem>> LoadVideos()
         {
             return api.GetVideoPages(type, page).ContinueWith(t =>
             {
                 if (t.IsFaulted)
                 {
-                    return;
+                    return null;
                 }
                 var videos = t.Result;
-                foreach (var item in videos.Items)
-                {
-                    Items.Add(item);
-                }
                 total += videos.Items.Count;
                 page++;
                 if (total >= videos.Total)
                 {
                     Videos.Scrolled -= Videos_Scrolled;
                 }
-            }).ContinueWith(t => loadingTask = null);
+                return videos.Items;
+            });
         }
 
+        Task<IList<VideoItem>> SearchVideos()
+        {
+            return api.SearchVideos(Title, page).ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    return null;
+                }
+                Videos.Scrolled -= Videos_Scrolled;
+                return t.Result;
+            });
+        }
+
+        void LoadComplete(Task<IList<VideoItem>> task)
+        {
+            if (task.IsFaulted || task.Result == null)
+            {
+                loading = false;
+                return;
+            }
+            lock (Items)
+            {
+                foreach (var item in task.Result)
+                {
+                    Items.Add(item);
+                }
+            }
+            loading = false;
+        }
         private void Videos_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            if (loadingTask != null || Items.Count - e.LastVisibleItemIndex > 10)
+            if (loading || Items.Count - e.LastVisibleItemIndex > 10)
             {
                 return;
             }
-            loadingTask = LoadVideos();
+            loading = true;
+            Console.WriteLine($"{Items.Count}/{e.LastVisibleItemIndex}");
+            loadFunc().ContinueWith(LoadComplete);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ActionVideo.Models
+﻿namespace ActionVideo.Models
 {
     public class VideoItem
     {
