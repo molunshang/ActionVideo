@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ActionVideo.Converts"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="ActionVideo.Views.HomePage">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -13,11 +14,11 @@
                                       ShowsResults="true"
                                       DisplayMemberName="Name" />
     </Shell.SearchHandler>
-    <CollectionView x:Name="Videos" ItemsLayout="VerticalGrid,2" BackgroundColor="{StaticResource Primary}">
+    <CollectionView x:Name="Videos" ItemsLayout="VerticalGrid,2" BackgroundColor="{StaticResource Primary}" ItemSizingStrategy="MeasureAllItems" ItemsUpdatingScrollMode="KeepScrollOffset">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout Padding="2">
-                    <Image Source="{Binding Pic,Converter={StaticResource Pic}}" Aspect="AspectFill"/>
+                <StackLayout Padding="5">
+                    <ffimage:CachedImage Source="{Binding Pic}" Aspect="AspectFill" LoadingPlaceholder="loading.gif" RetryCount="0"/>
                     <Label Text="{Binding Name}" MaxLines="3"/>
                     <Label Text="{Binding DateTime}" HorizontalOptions="Start"/>
                 </StackLayout>

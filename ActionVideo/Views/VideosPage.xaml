@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"             
+             x:Class="ActionVideo.Views.VideosPage">
+    <CollectionView x:Name="Videos" ItemsLayout="VerticalGrid,2" BackgroundColor="{StaticResource Primary}" ItemSizingStrategy="MeasureAllItems" ItemsUpdatingScrollMode="KeepScrollOffset" Scrolled="Videos_Scrolled">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout Padding="5">
+                    <ffimage:CachedImage Source="{Binding Pic}" Aspect="AspectFill" LoadingPlaceholder="loading.gif" RetryCount="0"/>
+                    <Label Text="{Binding Name}" MaxLines="3"/>
+                    <Label Text="{Binding DateTime}" HorizontalOptions="Start"/>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

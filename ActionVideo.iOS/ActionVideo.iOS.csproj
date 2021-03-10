@@ -132,6 +132,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Xamarin.FFImageLoading.Forms">
+      <Version>2.4.11.982</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -141,5 +144,11 @@
       <Project>{D749D599-BC17-4576-A394-C41C18C8F5A1}</Project>
       <Name>ActionVideo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\load_fail.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\loading.gif" />
   </ItemGroup>
 </Project>
