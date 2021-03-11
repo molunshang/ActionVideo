@@ -10,6 +10,9 @@
     <CollectionView.ItemTemplate>
         <DataTemplate>
             <StackLayout Padding="5">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </StackLayout.GestureRecognizers>
                 <ffimage:CachedImage Source="{Binding Pic}" Aspect="AspectFill" LoadingPlaceholder="loading.gif" RetryCount="1" RetryDelay="500"/>
                 <Label Text="{Binding Name}" MaxLines="3" />
                 <Label Text="{Binding DateTime}" HorizontalOptions="Start"/>

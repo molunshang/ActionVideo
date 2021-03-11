@@ -52,7 +52,6 @@ namespace ActionVideo.Views
 
         private async void VideoSearchHandler_QueryConfirmed(SearchHandler sender, string key)
         {
-            sender.ClearValue(SearchHandler.QueryProperty);
             await Navigation.PushAsync(new VideosPage(-1, key, true));
         }
     }

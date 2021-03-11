@@ -27,7 +27,6 @@ namespace ActionVideo.Views
             this.type = type;
             Title = title;
             Videos.ItemsSource = Items = new ObservableCollection<VideoItem>();
-            Videos.Scrolled += Videos_Scrolled;
             if (search)
             {
                 loadFunc = SearchVideos;
@@ -35,6 +34,7 @@ namespace ActionVideo.Views
             else
             {
                 loadFunc = LoadVideos;
+                Videos.Scrolled += Videos_Scrolled;
             }
             loadFunc().ContinueWith(LoadComplete);
         }
@@ -60,15 +60,7 @@ namespace ActionVideo.Views
 
         Task<IList<VideoItem>> SearchVideos()
         {
-            return api.SearchVideos(Title, page).ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    return null;
-                }
-                Videos.Scrolled -= Videos_Scrolled;
-                return t.Result;
-            });
+            return api.SearchVideos(Title, page);
         }
 
         void LoadComplete(Task<IList<VideoItem>> task)
@@ -94,7 +86,6 @@ namespace ActionVideo.Views
                 return;
             }
             loading = true;
-            Console.WriteLine($"{Items.Count}/{e.LastVisibleItemIndex}");
             loadFunc().ContinueWith(LoadComplete);
         }
     }

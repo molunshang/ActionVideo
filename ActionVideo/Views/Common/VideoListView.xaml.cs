@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms.Xaml;
+﻿using ActionVideo.Models;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace ActionVideo.Views.Common
 {
@@ -8,6 +10,12 @@ namespace ActionVideo.Views.Common
         public VideoListView()
         {
             InitializeComponent();
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        {
+            var video = (VideoItem)((BindableObject)sender).BindingContext;
+            await Navigation.PushAsync(new PlayPage(video));
         }
     }
 }

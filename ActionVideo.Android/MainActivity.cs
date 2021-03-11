@@ -5,6 +5,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using FFImageLoading.Forms.Platform;
+using Plugin.CurrentActivity;
+using MediaManager;
 
 namespace ActionVideo.Droid
 {
@@ -19,6 +21,8 @@ namespace ActionVideo.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             CachedImageRenderer.Init(true);
             CachedImageRenderer.InitImageViewHandler();
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            CrossMediaManager.Current.Init(this);
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
