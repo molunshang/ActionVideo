@@ -10,19 +10,4 @@
                                       DisplayMemberName="Name" QueryConfirmed="VideoSearchHandler_QueryConfirmed" />
     </Shell.SearchHandler>
     <view:VideoListView x:Name="Videos"/>
-    <!--<CollectionView x:Name="Videos" BackgroundColor="{StaticResource Primary}" ItemSizingStrategy="MeasureAllItems"
-                    ItemsUpdatingScrollMode="KeepScrollOffset">
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="5" HorizontalItemSpacing="5"/>
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <StackLayout Padding="5">
-                    <ffimage:CachedImage Source="{Binding Pic}" Aspect="AspectFill" LoadingPlaceholder="loading.gif" RetryCount="0"/>
-                    <Label Text="{Binding Name}" MaxLines="3"/>
-                    <Label Text="{Binding DateTime}" HorizontalOptions="Start"/>
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>-->
 </ContentPage>

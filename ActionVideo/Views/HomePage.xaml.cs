@@ -28,22 +28,7 @@ namespace ActionVideo.Views
                 {
                     return;
                 }
-                var categories = t.Result.Item1;
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    foreach (var category in categories)
-                    {
-                        var menuItem = new MenuItem() { Text = category.TypeName, BindingContext = category };
-                        menuItem.Clicked += async (sender, e) =>
-                        {
-                            Shell.Current.FlyoutIsPresented = false;
-                            var data = (Category)((MenuItem)sender).BindingContext;
-                            await Navigation.PushAsync(new VideosPage(data.TypeId, data.TypeName, false));
-                        };
-                        Shell.Current.Items.Add(menuItem);
-                    }
-                });
-                foreach (var item in t.Result.Item2)
+                foreach (var item in t.Result)
                 {
                     Items.Add(item);
                 }

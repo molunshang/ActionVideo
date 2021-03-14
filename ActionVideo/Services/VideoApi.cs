@@ -31,20 +31,16 @@ namespace ActionVideo.Services
             }
             return match.Groups[1].Value;
         }
-        public async Task<(IList<Category>, IList<VideoItem>)> GetHomeVideos()
+        public async Task<IList<VideoItem>> GetHomeVideos()
         {
             var content = await GetContent("https://avninga.com/");
             if (string.IsNullOrEmpty(content))
             {
-                return (new Category[0], new VideoItem[0]);
+                return new VideoItem[0];
             }
             var root = JObject.Parse(content);
-            var categories = new List<Category>();
             var list = root["props"]["pageProps"]["homePageData"]["categories"].Children().SelectMany(items =>
             {
-                var type = items["vod_type"];
-                var category = new Category() { TypeId = type.Value<int>("id"), TypeName = type.Value<string>("name") };
-                categories.Add(category);
                 return items["vods"].Children().Select(it => new VideoItem()
                 {
                     Pic = it.Value<string>("vod_pic"),
@@ -53,7 +49,7 @@ namespace ActionVideo.Services
                     PlayUrl = it.Value<string>("vod_play_url")
                 });
             });
-            return (categories, list.ToArray());
+            return list.ToArray();
         }
 
         public async Task<PageResult<VideoItem>> GetVideoPages(int type, int page)
